@@ -41,7 +41,7 @@ def init_db():
         cars = [
             ('Toyota Corolla', 'Reliable and fuel-efficient.', 45, 'Great for city driving!', 5, 'Auto', '6.0L/100km', 2),
             ('Honda Civic Type R (FL5)', 'Comfortable and smooth.', 50, 'Perfect for a weekend getaway.', 4, 'Manual', '6.4L/100km', 1),
-            ('Ford Mustang', 'Sporty and fun.', 120, 'Drive with style.', 4, 'Manual', '11.0L/100km', 1),
+            ('ford mustang 2026', 'Sporty and fun.', 120, 'Drive with style.', 4, 'Manual', '11.0L/100km', 1),
             ('Hyundai Elantra', 'Great for city driving.', 40, 'Easy to park.', 5, 'Auto', '7.0L/100km', 3),
             ('Tesla Model Y', 'Electric and fast.', 155, 'Bring a charger!', 5, 'Auto', 'Electric', 1)
         ]
