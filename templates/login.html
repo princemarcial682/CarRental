@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="auth-bg">
+    <div class="auth-box">
+        <h2 style="margin-top:0; color:#000000;">Account Login</h2>
+        <p style="color:#64748b; font-size:14px; margin-bottom:20px;">Enter your credentials to manage your car rental dashboard.</p>
+        <form method="POST">
+            <label style="text-align:left; display:block; font-weight:600;">Username ID:</label>
+            <input type="text" name="username" required placeholder="Enter username">
+            
+            <label style="text-align:left; display:block; font-weight:600;">Password:</label>
+            <input type="password" name="password" required placeholder="Enter password">
+            
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

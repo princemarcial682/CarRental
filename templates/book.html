@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="checkout-layout">
+    <div class="checkout-form-section">
+        <h3>Primary Driver Verification</h3>
+        <form method="POST">
+            <div style="display: flex; gap:10px; margin-bottom:15px;">
+                <input type="text" placeholder="Licence First Name" required style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:6px;">
+                <input type="text" placeholder="Licence Last Name" required style="flex:1; padding:12px; border:1px solid #cbd5e1; border-radius:6px;">
+            </div>
+
+            <h3>Scheduling Window</h3>
+            <label style="display:block; margin-bottom:5px;">Pickup Handover Date:</label>
+            <input type="date" name="start_date" id="start_date" required style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #cbd5e1; border-radius:6px;">
+
+            <label style="display:block; margin-bottom:5px;">Return Handover Date:</label>
+            <input type="date" name="end_date" id="end_date" required style="width:100%; padding:12px; margin-bottom:20px; border:1px solid #cbd5e1; border-radius:6px;">
+
+            <h3>Logistics Fulfilment</h3>
+            <label class="radio-label" style="display:block; padding:12px; border:1px solid #e2e8f0; border-radius:6px; margin-bottom:10px;">
+                <input type="radio" name="delivery" value="pickup" checked onclick="document.getElementById('addrBox').style.display='none'">
+                Counter Pick-Up: <strong>Bangalow Ave, Moorebank NSW 2170</strong>
+            </label>
+            <label class="radio-label" style="display:block; padding:12px; border:1px solid #e2e8f0; border-radius:6px; margin-bottom:15px;">
+                <input type="radio" name="delivery" value="delivery" onclick="document.getElementById('addrBox').style.display='block'">
+                Direct Courier Delivery To Private Address
+            </label>
+
+            <div id="addrBox" style="display:none; padding:15px; background:#f8fafc; border-radius:6px; margin-bottom:20px;">
+                <label style="font-weight:600;">Destination Address Details:</label>
+                <input type="text" name="delivery_address" placeholder="Include Street, Subcode and State numbers" style="width:100%; padding:12px; margin-top:5px; border:1px solid #cbd5e1; border-radius:6px;">
+            </div>
+
+            <button type="submit" class="btn-turo">Continue to Pay</button>
+        </form>
+    </div>
+
+    <div class="checkout-summary-section">
+        <h3>Vehicle Specification Summary</h3>
+        <h4>{{ car.name }}</h4>
+        <p style="color:#64748b;">System Profile: {{ car.transmission }} · {{ car.fuel }}</p>
+        <hr>
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+            <span>Standard Fleet Rate:</span>
+            <strong>${{ car.price_per_day }}.00 / Day</strong>
+        </div>
+        <div style="background:#f0fdf4; color:#166534; padding:12px; border-radius:6px; font-size:14px; margin-top:15px;">
+            <strong>💡 Host Recommendation Note:</strong> {{ car.suggestion }}
+        </div>
+    </div>
+</div>
+
+<script>
+    // System script preventing users from executing reservation loops into the past
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('start_date').setAttribute('min', today);
+    document.getElementById('end_date').setAttribute('min', today);
+</script>
+{% endblock %}

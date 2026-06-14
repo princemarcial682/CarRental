@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 style="text-align: center; font-size: 36px; color: #000000; margin-bottom: 5px;">Our Rental Fleet</h2>
+<p style="text-align: center; color: #64748b; margin-bottom: 30px;">Select a vehicle below to view detailed features and reviews.</p>
+
+<div class="car-grid">
+    {% for car in cars %}
+    <div class="car-grid-card">
+        <img src="{{ url_for('static', filename='images/' ~ car.id ~ '.jpg') }}" class="grid-img">
+        
+        <div class="grid-info">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h3 style="margin:0;">{{ car.name }}</h3>
+                {% if car.stock > 0 %}
+                    <span class="badge badge-available">In Stock ({{ car.stock }})</span>
+                {% else %}
+                    <span class="badge badge-unavailable">Out of Stock</span>
+                {% endif %}
+            </div>
+            <p class="car-specs">💺 {{ car.seats }} Seats · ⚙️ {{ car.transmission }} · ⛽ {{ car.fuel }}</p>
+            <p class="price-text"><strong>${{ car.price_per_day }}</strong> / day</p>
+            
+            <a href="{{ url_for('car_details', car_id=car.id) }}" class="btn-turo" style="text-align:center; display:block;">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

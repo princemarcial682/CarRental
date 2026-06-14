@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 1100px; margin: 0 auto;">
+    <h2>Admin Terminal</h2>
+    
+    <div style="background: white; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0; margin-bottom:35px;">
+        <h3 style="margin-top:0; color:#1e40af;">➕ Add a New Vehicle to Active Fleet</h3>
+        <form method="POST" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:15px;">
+            <input type="hidden" name="add_car" value="1">
+            <input type="text" name="name" placeholder="Car Name Model" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px;">
+            <input type="text" name="description" placeholder="Description/Features" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px;">
+            <input type="number" name="price_per_day" placeholder="Price Per Day ($)" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px;">
+            <input type="text" name="suggestion" placeholder="Host Driving Recommendation" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px;">
+            <input type="number" name="seats" placeholder="Seat Count" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px;">
+            <select name="transmission" style="padding:10px; border:1px solid #cbd5e1; border-radius:6px;">
+                <option value="Auto">Automatic</option>
+                <option value="Manual">Manual</option>
+            </select>
+            <input type="text" name="fuel" placeholder="Fuel Metrics (e.g. 5L/100km)" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px;">
+            <input type="number" name="stock" placeholder="Total Stock Units Available" required style="padding:10px; border:1px solid #cbd5e1; border-radius:6px;">
+            <button type="submit" class="btn-submit" style="grid-column: 1 / -1; width:auto; justify-self:end; padding:10px 30px;">Commit Vehicle To System</button>
+        </form>
+    </div>
+
+    <h3 style="color:#1e3a8a;">📥 Inquiries & Incident Reports</h3>
+    <div style="background:white; border-radius:12px; border:1px solid #e2e8f0; padding:15px; margin-bottom:35px;">
+        {% if messages %}
+            {% for msg in messages %}
+                <div style="padding:15px; border-bottom:1px solid #f1f5f9;">
+                    <span style="background:#e0f2fe; color:#0369a1; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:600;">From: {{ msg.username }}</span>
+                    <small style="color:#94a3b8; float:right;">{{ msg.timestamp }}</small>
+                    <h4 style="margin:10px 0 5px 0;">Subject: {{ msg.subject }}</h4>
+                    <p style="margin:0; color:#475569; font-size:14px;">{{ msg.message }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="color:#64748b; font-style:italic; padding:10px;">Communications log is clean.</p>
+        {% endif %}
+    </div>
+
+    <h3 style="color:#1e3a8a;">📋 Active Fleet Rental Record</h3>
+    <table style="width: 100%; border-collapse: collapse; background: white; border-radius:12px; overflow:hidden; border: 1px solid #e2e8f0;">
+        <thead>
+            <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0; text-align: left;">
+                <th style="padding: 12px;">Customer</th>
+                <th style="padding: 12px;">Vehicle Model</th>
+                <th style="padding: 12px;">Window Dates</th>
+                <th style="padding: 12px;">Fulfillment Type</th>
+                <th style="padding: 12px;">Target Address</th>
+                <th style="padding: 12px;">Revenue Stream</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <td style="padding: 12px;"><strong>{{ booking.username }}</strong></td>
+                <td style="padding: 12px;">{{ booking.name }}</td>
+                <td style="padding: 12px; font-size:13px;">{{ booking.start_date }} to {{ booking.end_date }}</td>
+                <td style="padding: 12px; text-transform: capitalize;">{{ booking.is_delivery }}</td>
+                <td style="padding: 12px; font-size:12px; color:#475569;">{{ booking.delivery_address or 'N/A (Counter Handover)' }}</td>
+                <td style="padding: 12px; color: #15803d; font-weight: bold;">${{ booking.total_price }} AUD</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

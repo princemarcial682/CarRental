@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; border: 1px solid #e2e8f0;">
+    <h2>{{ car.name }}</h2>
+    
+    <div 
+    class="gallery-container">
+    <img class="gallery-sub-img" src="{{ url_for('static', filename='images/' ~ car.id ~ '_1.jpg') }}" onclick="document.getElementById('mainViewer').src=this.src">
+    <img class="gallery-sub-img" src="{{ url_for('static', filename='images/' ~ car.id ~ '_2.jpg') }}" onclick="document.getElementById('mainViewer').src=this.src">
+    <img class="gallery-sub-img" src="{{ url_for('static', filename='images/' ~ car.id ~ '_3.jpg') }}" onclick="document.getElementById('mainViewer').src=this.src">
+ </div>
+
+    <div style="margin-top: 25px;">
+        <p style="font-size: 18px; color:#475569;">{{ car.description }}</p>
+        <p><strong>Specifications:</strong> {{ car.seats }} Seats | {{ car.transmission }} System | Fuel Efficiency Profile: {{ car.fuel }}</p>
+        <h3>Pricing Rate: ${{ car.price_per_day }} AUD / Day</h3>
+    </div>
+
+    {% if car.stock > 0 %}
+        <a href="{{ url_for('book', car_id=car.id) }}" class="btn-turo" style="display:inline-block; width:auto; padding:15px 40px; margin-top:15px;">Proceed to Booking Checkout</a>
+    {% else %}
+        <button class="btn-turo" style="background-color:#94a3b8; cursor:not-allowed; width:auto; padding:15px 40px;" disabled>Currently Rented Out</button>
+    {% endif %}
+
+    <hr>
+
+    <h3>Customer Experience Ratings</h3>
+    {% if session.user_id %}
+    <form action="{{ url_for('rate_car', car_id=car.id) }}" method="POST" style="background:#f1f5f9; padding:20px; border-radius:8px; margin-bottom:20px;">
+        <label>Star Rating Score:</label>
+        <select name="rating" style="padding:8px; margin-bottom:10px; display:block;">
+            <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
+            <option value="4">⭐⭐⭐⭐ 4 Stars</option>
+            <option value="3">⭐⭐⭐ 3 Stars</option>
+            <option value="2">⭐⭐ 2 Stars</option>
+            <option value="1">⭐ 1 Star</option>
+        </select>
+        <label>Your Feedback Experience:</label>
+        <textarea name="comment" required style="width:100%; height:70px; padding:10px; border-radius:6px; margin-top:5px; box-sizing:border-box;"></textarea>
+        <button type="submit" class="btn-submit" style="width:auto; margin-top:10px;">Post Review</button>
+    </form>
+    {% endif %}
+
+    {% for review in reviews %}
+        <div style="border-bottom:1px solid #f1f5f9; padding:15px 0;">
+            <strong style="color:#1e40af;">{{ review.username }}</strong> 
+            <span style="color:#eab308;">{{"⭐" * review.rating}}</span>
+            <small style="color:#94a3b8; float:right;">{{ review.timestamp }}</small>
+            <p style="margin:5px 0 0 0; color:#475569;">{{ review.comment }}</p>
+        </div>
+    {% else %}
+        <p style="font-style:italic; color:#64748b;">No individual user ratings posted yet for this model.</p>
+    {% endfor %}
+</div>
+{% endblock %}
